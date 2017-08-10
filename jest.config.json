@@ -1,0 +1,7 @@
+{
+  "bail": true,
+  "verbose": true,
+  "collectCoverage": true,
+  "collectCoverageFrom" : ["**/src/**/*.js", "!**/node_modules/**"],
+  "coverageDirectory": "./__coverage__"
+}
