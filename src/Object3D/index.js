@@ -1,5 +1,4 @@
 import v4 from 'uuid/v4';
-import Transform from '../Transform';
 
 export default class Object3D {
 
@@ -8,7 +7,6 @@ export default class Object3D {
         this.name = 'Object3D';
         this.parent = undefined;
         this.children = [];
-        this.transform = new Transform();
     }
 
     getUuid() {
@@ -41,14 +39,6 @@ export default class Object3D {
             children[i].setParent(this);
         }
         this.children = children;
-    }
-
-    getTransform() {
-        return this.transform;
-    }
-
-    setTransform(transform) {
-        this.transform = transform;
     }
 
     addChild(child) {

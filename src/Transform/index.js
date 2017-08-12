@@ -1,8 +1,10 @@
 import { vec3, quat, mat4 } from 'gl-matrix';
+import Object3D from '../Object3D';
 
-export default class Transform {
+export default class Transform extends Object3D {
 
     constructor() {
+        super();
         this.position = vec3.fromValues(0, 0, 0);
         this.scaling = vec3.fromValues(1, 1, 1);
         this.quaternion = quat.create();

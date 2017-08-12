@@ -54,7 +54,7 @@ test('it should set the projectionMatrix if updateProjectionMatrix is called', (
     const test = new OrthographicCamera(-100, 100, -100, 100, -100, 100);
     expect(test.getProjectionMatrix()[0]).toEqual(0.009999999776482582);
     expect(test.getProjectionMatrix()[5]).toEqual(0.009999999776482582);
-    test.getTransform().setPosition(5, 10, 10);
+    test.setPosition(5, 10, 10);
     test.updateProjectionMatrix(65, 16/9, 0.1, 100);
     expect(test.getProjectionMatrix()[0]).not.toEqual(0.009999999776482582);
     expect(test.getProjectionMatrix()[5]).not.toEqual(0.009999999776482582);

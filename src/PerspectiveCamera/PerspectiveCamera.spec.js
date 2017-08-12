@@ -42,7 +42,7 @@ test('it should set the projectionMatrix if updateProjectionMatrix is called', (
     const test = new PerspectiveCamera(45, 4/3, 0.1, 1000);
     expect(test.getProjectionMatrix()[0]).toEqual(1.3444432020187378);
     expect(test.getProjectionMatrix()[14]).toEqual(-0.20002000033855438);
-    test.getTransform().setPosition(5, 10, 10);
+    test.setPosition(5, 10, 10);
     test.updateProjectionMatrix(65, 16/9, 0.1, 100);
     expect(test.getProjectionMatrix()[0]).not.toEqual(1.3444432020187378);
     expect(test.getProjectionMatrix()[14]).not.toEqual(-0.20002000033855438);

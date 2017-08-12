@@ -1,5 +1,4 @@
 import Object3D from './';
-import Transform from '../Transform';
 
 // ===================================================
 // check all properties of the object ================
@@ -27,12 +26,6 @@ test('it should have a children property', () => {
     const test = new Object3D();
     expect(test).toHaveProperty('children');
     expect(test.children).not.toBeUndefined();
-});
-
-test('it should have a transform property', () => {
-    const test = new Object3D();
-    expect(test).toHaveProperty('transform');
-    expect(test.transform).not.toBeUndefined();
 });
 
 // ===================================================
@@ -85,27 +78,6 @@ test('it should set the children property', () => {
     expect(parent.getChildren()[1].getUuid()).toEqual(child2.getUuid());
     expect(child1.getParent().getUuid()).toEqual(parent.getUuid());
     expect(child2.getParent().getUuid()).toEqual(parent.getUuid());
-});
-
-test('it should get the transform property', () => {
-    const test = new Object3D();
-    expect(test.getTransform()).not.toBeUndefined();
-    expect(test.getTransform().getPosition()[0]).toEqual(0);
-    expect(test.getTransform().getScale()[0]).toEqual(1);
-    expect(test.getTransform().getQuaternion()[3]).toEqual(1);
-});
-
-test('it should set the transform property', () => {
-    const test = new Object3D();
-    const transform = new Transform();
-    transform.setPosition(2, 2, 2);
-    transform.setScale(4, 4, 4);
-    transform.setQuaternion(1, 2, 3, 4);
-    test.setTransform(transform);
-    expect(test.getTransform()).not.toBeUndefined();
-    expect(test.getTransform().getPosition()[0]).toEqual(2);
-    expect(test.getTransform().getScale()[0]).toEqual(4);
-    expect(test.getTransform().getQuaternion()[3]).toEqual(4);
 });
 
 // ===================================================

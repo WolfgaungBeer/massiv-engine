@@ -81,7 +81,7 @@ test('it should set the viewMatrix correctly if lookAt is called', () => {
     expect(test.getViewMatrix()[0]).toEqual(1);
     expect(test.getViewMatrix()[1]).toEqual(0);
     expect(test.getViewMatrix()[2]).toEqual(0);
-    test.getTransform().setPosition(5, 10, 10);
+    test.setPosition(5, 10, 10);
     test.lookAt(0, 0, 0);
     expect(test.getViewMatrix()[0]).not.toEqual(1);
     expect(test.getViewMatrix()[1]).not.toEqual(0);

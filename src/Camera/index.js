@@ -1,7 +1,7 @@
 import { vec3, mat4 } from 'gl-matrix';
-import Object3D from '../Object3D';
+import Transform from '../Transform';
 
-export default class Camera extends Object3D {
+export default class Camera extends Transform {
 
     constructor() {
         super();
@@ -35,7 +35,7 @@ export default class Camera extends Object3D {
     }
 
     lookAt(x, y, z) {
-        const position = this.getTransform().getPosition();
+        const position = this.getPosition();
         this.viewMatrix = mat4.lookAt(mat4.create(), position, vec3.fromValues(x, y, z), this.upVector);
     }
 
