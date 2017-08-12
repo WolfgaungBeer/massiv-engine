@@ -49,15 +49,51 @@ export default class Transform {
         this.positionDirty = true;
     }
 
+    translateX(value) {
+        this.translate(value, 0, 0);
+    }
+
+    translateY(value) {
+        this.translate(0, value, 0);
+    }
+
+    translateZ(value) {
+        this.translate(0, 0, value);
+    }
+
     scale(x, y, z) {
         this.scaling = vec3.add(vec3.create(), this.scaling, vec3.fromValues(x, y, z));
         this.scalingDirty = true;
+    }
+
+    scaleX(value) {
+        this.scale(value, 0, 0);
+    }
+
+    scaleY(value) {
+        this.scale(0, value, 0);
+    }
+
+    scaleZ(value) {
+        this.scale(0, 0, value);
     }
 
     rotate(x, y, z) {
         const quaternion = quat.fromEuler(quat.create(), x, y, z);
         this.quaternion = quat.multiply(quat.create(), this.quaternion, quaternion);
         this.rotationDirty = true;
+    }
+
+    rotateX(value) {
+        this.rotate(value, 0, 0);
+    }
+
+    rotateY(value) {
+        this.rotate(0, value, 0);
+    }
+
+    rotateZ(value) {
+        this.rotate(0, 0, value);
     }
 
     computeModelMatrix() {
@@ -68,27 +104,27 @@ export default class Transform {
         const sclDirty = this.scalingDirty;
         const rotDirty = this.rotationDirty;
 
-        if (posDirty && sclDirty && rotDirty) { // everything changed
+        if (posDirty && sclDirty && rotDirty) {
 
             const transformationMatrix = mat4.fromRotationTranslationScale(mat4.create(), rot, pos, scl);
             this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
 
-        } else if (posDirty && !sclDirty && !rotDirty) { // only posDirty changed
+        } else if (posDirty && !sclDirty && !rotDirty) {
 
             const transformationMatrix = mat4.fromTranslation(mat4.create(), pos);
             this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
 
-        } else if (!posDirty && sclDirty && !rotDirty) { // only sclDirty changed
+        } else if (!posDirty && sclDirty && !rotDirty) {
 
             const transformationMatrix = mat4.fromScaling(mat4.create(), scl);
             this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
 
-        } else if (!posDirty && !sclDirty && rotDirty) { // only rotDirty changed
+        } else if (!posDirty && !sclDirty && rotDirty) {
 
             const transformationMatrix = mat4.fromQuat(mat4.create(), rot);
             this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
 
-        } else if (posDirty && sclDirty && !rotDirty) { // posDirty and sclDirty changed
+        } else if (posDirty && sclDirty && !rotDirty) {
 
             const posMatrix = mat4.fromTranslation(mat4.create(), pos);
             const sclMatrix = mat4.fromScaling(mat4.create(), scl);
@@ -96,12 +132,12 @@ export default class Transform {
             this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, posMatrix);
 
 
-        } else if (posDirty && !sclDirty && rotDirty) { // posDirty and rotDirty changed
+        } else if (posDirty && !sclDirty && rotDirty) {
 
             const transformationMatrix = mat4.fromRotationTranslation(mat4.create(), rot, pos);
             this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
 
-        } else if (!posDirty && sclDirty && rotDirty) { // sclDirty and rotDirty changed
+        } else if (!posDirty && sclDirty && rotDirty) {
 
             const sclMatrix = mat4.fromScaling(mat4.create(), scl);
             const rotMatrix = mat4.fromQuat(mat4.create(), rot);

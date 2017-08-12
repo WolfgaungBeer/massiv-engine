@@ -139,6 +139,54 @@ test('it should translate this Transform', () => {
     expect(test.positionDirty).toEqual(true);
 });
 
+test('it should translate this Transform on the X axis', () => {
+    const test = new Transform();
+    expect(test.getPosition()[0]).toEqual(0);
+    expect(test.getPosition()[1]).toEqual(0);
+    expect(test.getPosition()[2]).toEqual(0);
+    test.translateX(2);
+    expect(test.getPosition()[0]).toEqual(2);
+    expect(test.getPosition()[1]).toEqual(0);
+    expect(test.getPosition()[2]).toEqual(0);
+    test.translateX(4);
+    expect(test.getPosition()[0]).toEqual(6);
+    expect(test.getPosition()[1]).toEqual(0);
+    expect(test.getPosition()[2]).toEqual(0);
+    expect(test.positionDirty).toEqual(true);
+});
+
+test('it should translate this Transform on the Y axis', () => {
+    const test = new Transform();
+    expect(test.getPosition()[0]).toEqual(0);
+    expect(test.getPosition()[1]).toEqual(0);
+    expect(test.getPosition()[2]).toEqual(0);
+    test.translateY(2);
+    expect(test.getPosition()[0]).toEqual(0);
+    expect(test.getPosition()[1]).toEqual(2);
+    expect(test.getPosition()[2]).toEqual(0);
+    test.translateY(4);
+    expect(test.getPosition()[0]).toEqual(0);
+    expect(test.getPosition()[1]).toEqual(6);
+    expect(test.getPosition()[2]).toEqual(0);
+    expect(test.positionDirty).toEqual(true);
+});
+
+test('it should translate this Transform on the Z axis', () => {
+    const test = new Transform();
+    expect(test.getPosition()[0]).toEqual(0);
+    expect(test.getPosition()[1]).toEqual(0);
+    expect(test.getPosition()[2]).toEqual(0);
+    test.translateZ(2);
+    expect(test.getPosition()[0]).toEqual(0);
+    expect(test.getPosition()[1]).toEqual(0);
+    expect(test.getPosition()[2]).toEqual(2);
+    test.translateZ(4);
+    expect(test.getPosition()[0]).toEqual(0);
+    expect(test.getPosition()[1]).toEqual(0);
+    expect(test.getPosition()[2]).toEqual(6);
+    expect(test.positionDirty).toEqual(true);
+});
+
 test('it should scale this Transform', () => {
     const test = new Transform();
     expect(test.getScale()[0]).toEqual(1);
@@ -155,6 +203,54 @@ test('it should scale this Transform', () => {
     expect(test.scalingDirty).toEqual(true);
 });
 
+test('it should scale this Transform on the X axis', () => {
+    const test = new Transform();
+    expect(test.getScale()[0]).toEqual(1);
+    expect(test.getScale()[1]).toEqual(1);
+    expect(test.getScale()[2]).toEqual(1);
+    test.scaleX(2);
+    expect(test.getScale()[0]).toEqual(3);
+    expect(test.getScale()[1]).toEqual(1);
+    expect(test.getScale()[2]).toEqual(1);
+    test.scaleX(4);
+    expect(test.getScale()[0]).toEqual(7);
+    expect(test.getScale()[1]).toEqual(1);
+    expect(test.getScale()[2]).toEqual(1);
+    expect(test.scalingDirty).toEqual(true);
+});
+
+test('it should scale this Transform on the Y axis', () => {
+    const test = new Transform();
+    expect(test.getScale()[0]).toEqual(1);
+    expect(test.getScale()[1]).toEqual(1);
+    expect(test.getScale()[2]).toEqual(1);
+    test.scaleY(2);
+    expect(test.getScale()[0]).toEqual(1);
+    expect(test.getScale()[1]).toEqual(3);
+    expect(test.getScale()[2]).toEqual(1);
+    test.scaleY(4);
+    expect(test.getScale()[0]).toEqual(1);
+    expect(test.getScale()[1]).toEqual(7);
+    expect(test.getScale()[2]).toEqual(1);
+    expect(test.scalingDirty).toEqual(true);
+});
+
+test('it should scale this Transform on the Z axis', () => {
+    const test = new Transform();
+    expect(test.getScale()[0]).toEqual(1);
+    expect(test.getScale()[1]).toEqual(1);
+    expect(test.getScale()[2]).toEqual(1);
+    test.scaleZ(2);
+    expect(test.getScale()[0]).toEqual(1);
+    expect(test.getScale()[1]).toEqual(1);
+    expect(test.getScale()[2]).toEqual(3);
+    test.scaleZ(4);
+    expect(test.getScale()[0]).toEqual(1);
+    expect(test.getScale()[1]).toEqual(1);
+    expect(test.getScale()[2]).toEqual(7);
+    expect(test.scalingDirty).toEqual(true);
+});
+
 test('it should rotate this Transform', () => {
     const test = new Transform();
     const rotation1 = quat.fromEuler(quat.create(), 1, 2, 3);
@@ -163,6 +259,51 @@ test('it should rotate this Transform', () => {
     expect(test.getQuaternion()[2]).toEqual(0);
     expect(test.getQuaternion()[3]).toEqual(1);
     test.rotate(1, 2, 3);
+    expect(test.getQuaternion()[0]).toEqual(rotation1[0]);
+    expect(test.getQuaternion()[1]).toEqual(rotation1[1]);
+    expect(test.getQuaternion()[2]).toEqual(rotation1[2]);
+    expect(test.getQuaternion()[3]).toEqual(rotation1[3]);
+    expect(test.rotationDirty).toEqual(true);
+});
+
+test('it should rotate this Transform on the X axis', () => {
+    const test = new Transform();
+    const rotation1 = quat.fromEuler(quat.create(), 2, 0, 0);
+    expect(test.getQuaternion()[0]).toEqual(0);
+    expect(test.getQuaternion()[1]).toEqual(0);
+    expect(test.getQuaternion()[2]).toEqual(0);
+    expect(test.getQuaternion()[3]).toEqual(1);
+    test.rotateX(2);
+    expect(test.getQuaternion()[0]).toEqual(rotation1[0]);
+    expect(test.getQuaternion()[1]).toEqual(rotation1[1]);
+    expect(test.getQuaternion()[2]).toEqual(rotation1[2]);
+    expect(test.getQuaternion()[3]).toEqual(rotation1[3]);
+    expect(test.rotationDirty).toEqual(true);
+});
+
+test('it should rotate this Transform on the Y axis', () => {
+    const test = new Transform();
+    const rotation1 = quat.fromEuler(quat.create(), 0, 2, 0);
+    expect(test.getQuaternion()[0]).toEqual(0);
+    expect(test.getQuaternion()[1]).toEqual(0);
+    expect(test.getQuaternion()[2]).toEqual(0);
+    expect(test.getQuaternion()[3]).toEqual(1);
+    test.rotateY(2);
+    expect(test.getQuaternion()[0]).toEqual(rotation1[0]);
+    expect(test.getQuaternion()[1]).toEqual(rotation1[1]);
+    expect(test.getQuaternion()[2]).toEqual(rotation1[2]);
+    expect(test.getQuaternion()[3]).toEqual(rotation1[3]);
+    expect(test.rotationDirty).toEqual(true);
+});
+
+test('it should rotate this Transform on the Z axis', () => {
+    const test = new Transform();
+    const rotation1 = quat.fromEuler(quat.create(), 0, 0, 2);
+    expect(test.getQuaternion()[0]).toEqual(0);
+    expect(test.getQuaternion()[1]).toEqual(0);
+    expect(test.getQuaternion()[2]).toEqual(0);
+    expect(test.getQuaternion()[3]).toEqual(1);
+    test.rotateZ(2);
     expect(test.getQuaternion()[0]).toEqual(rotation1[0]);
     expect(test.getQuaternion()[1]).toEqual(rotation1[1]);
     expect(test.getQuaternion()[2]).toEqual(rotation1[2]);
