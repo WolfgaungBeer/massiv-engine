@@ -123,6 +123,10 @@ test('it should set the modelMatrix property', () => {
     expect(test.getModelMatrix()[3]).toEqual(1);
 });
 
+// ===================================================
+// check the non-getter-setter functions of the object
+// ===================================================
+
 test('it should translate this Transform', () => {
     const test = new Transform();
     expect(test.getPosition()[0]).toEqual(0);
