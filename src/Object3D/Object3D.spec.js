@@ -16,6 +16,12 @@ test('it should have a name property', () => {
     expect(test.name).not.toBeUndefined();
 });
 
+test('it should have a type property', () => {
+    const test = new Object3D();
+    expect(test).toHaveProperty('type');
+    expect(test.type).not.toBeUndefined();
+});
+
 test('it should have a parent property', () => {
     const test = new Object3D();
     expect(test).toHaveProperty('parent');
@@ -46,6 +52,17 @@ test('it should set the name property', () => {
     const test = new Object3D();
     test.setName('Test');
     expect(test.getName()).toEqual('Test');
+});
+
+test('it should get the type property', () => {
+    const test = new Object3D();
+    expect(test.getType()).toEqual('Object3D');
+});
+
+test('it should set the type property', () => {
+    const test = new Object3D();
+    test.setType('PerspectiveCamera');
+    expect(test.getType()).toEqual('PerspectiveCamera');
 });
 
 test('it should get the parent property', () => {
@@ -231,5 +248,72 @@ test('it should return a empty array because no child has the given name (recurs
     child1.setChildren([child4]);
     parent.setChildren([child1, child2, child3]);
     const children = parent.getChildrenByName('test6', true);
+    expect(children).toEqual([]);
+});
+
+test('it should get all children with the given type (not recursive)', () => {
+    const parent = new Object3D();
+    const child1 = new Object3D();
+    const child2 = new Object3D();
+    const child3 = new Object3D();
+    child1.setType('test1');
+    child2.setType('test1');
+    child3.setType('test2');
+    parent.setChildren([child1, child2, child3]);
+    const children = parent.getChildrenByType('test1');
+    expect(children[0].getUuid()).toEqual(child1.getUuid());
+    expect(children[1].getUuid()).toEqual(child2.getUuid());
+});
+
+test('it should return a empty array because no child has the given type (not recursive)', () => {
+    const parent = new Object3D();
+    const child1 = new Object3D();
+    const child2 = new Object3D();
+    const child3 = new Object3D();
+    child1.setType('test1');
+    child2.setType('test2');
+    child3.setType('test3');
+    parent.setChildren([child1, child2, child3]);
+    const children = parent.getChildrenByType('test4');
+    expect(children).toEqual([]);
+});
+
+test('it should get all children with the given type (recursive)', () => {
+    const parent = new Object3D();
+    const child1 = new Object3D();
+    const child2 = new Object3D();
+    const child3 = new Object3D();
+    const child4 = new Object3D();
+    const child5 = new Object3D();
+    child1.setType('test');
+    child2.setType('test2');
+    child3.setType('test3');
+    child4.setType('test');
+    child5.setType('test');
+    child4.setChildren([child5]);
+    child1.setChildren([child4]);
+    parent.setChildren([child1, child2, child3]);
+    const children = parent.getChildrenByType('test', true);
+    expect(children[0].getUuid()).toEqual(child1.getUuid());
+    expect(children[1].getUuid()).toEqual(child4.getUuid());
+    expect(children[2].getUuid()).toEqual(child5.getUuid());
+});
+
+test('it should return a empty array because no child has the given type (recursive)', () => {
+    const parent = new Object3D();
+    const child1 = new Object3D();
+    const child2 = new Object3D();
+    const child3 = new Object3D();
+    const child4 = new Object3D();
+    const child5 = new Object3D();
+    child1.setType('test1');
+    child2.setType('test2');
+    child3.setType('test3');
+    child4.setType('test4');
+    child5.setType('test5');
+    child4.setChildren([child5]);
+    child1.setChildren([child4]);
+    parent.setChildren([child1, child2, child3]);
+    const children = parent.getChildrenByType('test6', true);
     expect(children).toEqual([]);
 });

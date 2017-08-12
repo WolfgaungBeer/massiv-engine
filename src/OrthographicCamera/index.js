@@ -5,6 +5,7 @@ export default class OrthographicCamera extends Camera {
 
     constructor(left, right, bottom, top, near, far) {
         super();
+        this.type = 'OrthographicCamera';
         this.left = left;
         this.right = right;
         this.bottom = bottom;

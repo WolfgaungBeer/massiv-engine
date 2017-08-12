@@ -5,6 +5,7 @@ export default class Transform extends Object3D {
 
     constructor() {
         super();
+        this.type = 'Transform';
         this.position = vec3.fromValues(0, 0, 0);
         this.scaling = vec3.fromValues(1, 1, 1);
         this.quaternion = quat.create();
@@ -151,6 +152,8 @@ export default class Transform extends Object3D {
         this.positionDirty = false;
         this.scalingDirty = false;
         this.rotationDirty = false;
+
+        return this.modelMatrix;
     }
 
 }

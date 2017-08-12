@@ -5,6 +5,7 @@ export default class Camera extends Transform {
 
     constructor() {
         super();
+        this.type = 'Camera';
         this.upVector = vec3.fromValues(0, 1, 0);
         this.viewMatrix = mat4.create();
         this.projectionMatrix = mat4.create();

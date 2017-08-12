@@ -5,6 +5,7 @@ export default class Object3D {
     constructor() {
         this.uuid = v4();
         this.name = 'Object3D';
+        this.type = 'Object3D';
         this.parent = undefined;
         this.children = [];
     }
@@ -19,6 +20,14 @@ export default class Object3D {
 
     setName(name) {
         this.name = name;
+    }
+
+    getType() {
+        return this.type;
+    }
+
+    setType(type) {
+        this.type = type;
     }
 
     getParent() {
@@ -77,6 +86,22 @@ export default class Object3D {
 
             if (recursive) {
                 const childChildren = this.children[i].getChildrenByName(name, recursive);
+                children = children.concat(childChildren);
+            }
+
+        }
+        return children;
+    }
+
+    getChildrenByType(type, recursive) {
+        let children = [];
+        for (let i = 0; i < this.children.length; i++) {
+            if (this.children[i].getType() === type) {
+                children.push(this.children[i]);
+            }
+
+            if (recursive) {
+                const childChildren = this.children[i].getChildrenByType(type, recursive);
                 children = children.concat(childChildren);
             }
 
