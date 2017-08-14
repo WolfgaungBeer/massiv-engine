@@ -1,7 +1,7 @@
 import { vec3, mat4 } from 'gl-matrix';
-import Transform from '../Transform';
+import Object3D from '../Object3D';
 
-export default class Camera extends Transform {
+export default class Camera extends Object3D {
 
     constructor() {
         super();

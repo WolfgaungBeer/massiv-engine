@@ -1,9 +1,9 @@
 import { mat4 } from 'gl-matrix';
-import { Transform } from '../';
+import { Object3D } from '../';
 import vertexShaderSource from './VertexShader';
 import fragmentShaderSource from './FragmentShader';
 
-export default class Mesh extends Transform {
+export default class Mesh extends Object3D {
 
     constructor() {
         super();

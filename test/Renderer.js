@@ -1,6 +1,6 @@
 import { mat4 } from 'gl-matrix';
 import Mesh from './Mesh';
-import { Transform, PerspectiveCamera } from '../';
+import { Object3D, PerspectiveCamera } from '../';
 import { createShader, createProgram } from './utils';
 
 export default class Renderer {
@@ -12,7 +12,7 @@ export default class Renderer {
         this.canvas.width = this.domElement.clientWidth;
         this.canvas.height = this.domElement.clientHeight;
         this.gl = this.canvas.getContext("webgl2");
-        this.scene = new Transform();
+        this.scene = new Object3D();
         this.camera = new PerspectiveCamera(45, this.canvas.width/this.canvas.height, 0.1, 100);
         this.camera.setPosition(3, 5, 5);
         this.camera.lookAt(0, 0, 0);
