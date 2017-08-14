@@ -1,3 +1,2 @@
 # TODO
-- write and test getters and setters for PerspectiveCamera and OrthographicCamera
-- join Object3D and Transform
+- continue writing the Engine class and its tests

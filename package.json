@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/WolfgaungBeer/massiv-engine#readme",
   "dependencies": {
+    "eventemitter3": "^2.0.3",
     "gl-matrix": "^2.4.0",
     "uuid": "^3.1.0"
   },
