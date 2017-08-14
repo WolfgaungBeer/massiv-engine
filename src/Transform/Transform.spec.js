@@ -23,22 +23,16 @@ test('it should have a quaternion property', () => {
     expect(test.quaternion).not.toBeUndefined();
 });
 
-test('it should have a positionDirty property', () => {
+test('it should have a matrixTouched property', () => {
     const test = new Transform();
-    expect(test).toHaveProperty('positionDirty');
-    expect(test.positionDirty).toEqual(false);
+    expect(test).toHaveProperty('matrixTouched');
+    expect(test.matrixTouched).toEqual(false);
 });
 
-test('it should have a scalingDirty property', () => {
+test('it should have a matrixNeedsUpdate property', () => {
     const test = new Transform();
-    expect(test).toHaveProperty('scalingDirty');
-    expect(test.scalingDirty).toEqual(false);
-});
-
-test('it should have a rotationDirty property', () => {
-    const test = new Transform();
-    expect(test).toHaveProperty('rotationDirty');
-    expect(test.rotationDirty).toEqual(false);
+    expect(test).toHaveProperty('matrixNeedsUpdate');
+    expect(test.matrixNeedsUpdate).toEqual(false);
 });
 
 test('it should have a modelMatrix property', () => {
@@ -61,7 +55,11 @@ test('it should get the position property', () => {
 
 test('it should set the position property', () => {
     const test = new Transform();
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.setPosition(1, 2, 3);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
     expect(test.getPosition()).not.toBeUndefined();
     expect(test.getPosition()[0]).toEqual(1);
     expect(test.getPosition()[1]).toEqual(2);
@@ -78,7 +76,11 @@ test('it should get the scaling property', () => {
 
 test('it should set the scaling property', () => {
     const test = new Transform();
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.setScale(1, 2, 3);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
     expect(test.getScale()).not.toBeUndefined();
     expect(test.getScale()[0]).toEqual(1);
     expect(test.getScale()[1]).toEqual(2);
@@ -96,7 +98,11 @@ test('it should get the quaternion property', () => {
 
 test('it should set the quaternion property', () => {
     const test = new Transform();
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.setQuaternion(1, 2, 3, 4);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
     expect(test.getQuaternion()).not.toBeUndefined();
     expect(test.getQuaternion()[0]).toEqual(1);
     expect(test.getQuaternion()[1]).toEqual(2);
@@ -132,15 +138,14 @@ test('it should translate this Transform', () => {
     expect(test.getPosition()[0]).toEqual(0);
     expect(test.getPosition()[1]).toEqual(0);
     expect(test.getPosition()[2]).toEqual(0);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.translate(1, 2, 3);
     expect(test.getPosition()[0]).toEqual(1);
     expect(test.getPosition()[1]).toEqual(2);
     expect(test.getPosition()[2]).toEqual(3);
-    test.translate(2, 4, 6);
-    expect(test.getPosition()[0]).toEqual(3);
-    expect(test.getPosition()[1]).toEqual(6);
-    expect(test.getPosition()[2]).toEqual(9);
-    expect(test.positionDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should translate this Transform on the X axis', () => {
@@ -148,15 +153,14 @@ test('it should translate this Transform on the X axis', () => {
     expect(test.getPosition()[0]).toEqual(0);
     expect(test.getPosition()[1]).toEqual(0);
     expect(test.getPosition()[2]).toEqual(0);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.translateX(2);
     expect(test.getPosition()[0]).toEqual(2);
     expect(test.getPosition()[1]).toEqual(0);
     expect(test.getPosition()[2]).toEqual(0);
-    test.translateX(4);
-    expect(test.getPosition()[0]).toEqual(6);
-    expect(test.getPosition()[1]).toEqual(0);
-    expect(test.getPosition()[2]).toEqual(0);
-    expect(test.positionDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should translate this Transform on the Y axis', () => {
@@ -164,15 +168,14 @@ test('it should translate this Transform on the Y axis', () => {
     expect(test.getPosition()[0]).toEqual(0);
     expect(test.getPosition()[1]).toEqual(0);
     expect(test.getPosition()[2]).toEqual(0);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.translateY(2);
     expect(test.getPosition()[0]).toEqual(0);
     expect(test.getPosition()[1]).toEqual(2);
     expect(test.getPosition()[2]).toEqual(0);
-    test.translateY(4);
-    expect(test.getPosition()[0]).toEqual(0);
-    expect(test.getPosition()[1]).toEqual(6);
-    expect(test.getPosition()[2]).toEqual(0);
-    expect(test.positionDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should translate this Transform on the Z axis', () => {
@@ -180,15 +183,14 @@ test('it should translate this Transform on the Z axis', () => {
     expect(test.getPosition()[0]).toEqual(0);
     expect(test.getPosition()[1]).toEqual(0);
     expect(test.getPosition()[2]).toEqual(0);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.translateZ(2);
     expect(test.getPosition()[0]).toEqual(0);
     expect(test.getPosition()[1]).toEqual(0);
     expect(test.getPosition()[2]).toEqual(2);
-    test.translateZ(4);
-    expect(test.getPosition()[0]).toEqual(0);
-    expect(test.getPosition()[1]).toEqual(0);
-    expect(test.getPosition()[2]).toEqual(6);
-    expect(test.positionDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should scale this Transform', () => {
@@ -196,15 +198,14 @@ test('it should scale this Transform', () => {
     expect(test.getScale()[0]).toEqual(1);
     expect(test.getScale()[1]).toEqual(1);
     expect(test.getScale()[2]).toEqual(1);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.scale(1, 2, 3);
     expect(test.getScale()[0]).toEqual(2);
     expect(test.getScale()[1]).toEqual(3);
     expect(test.getScale()[2]).toEqual(4);
-    test.scale(2, 4, 6);
-    expect(test.getScale()[0]).toEqual(4);
-    expect(test.getScale()[1]).toEqual(7);
-    expect(test.getScale()[2]).toEqual(10);
-    expect(test.scalingDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should scale this Transform on the X axis', () => {
@@ -212,15 +213,14 @@ test('it should scale this Transform on the X axis', () => {
     expect(test.getScale()[0]).toEqual(1);
     expect(test.getScale()[1]).toEqual(1);
     expect(test.getScale()[2]).toEqual(1);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.scaleX(2);
     expect(test.getScale()[0]).toEqual(3);
     expect(test.getScale()[1]).toEqual(1);
     expect(test.getScale()[2]).toEqual(1);
-    test.scaleX(4);
-    expect(test.getScale()[0]).toEqual(7);
-    expect(test.getScale()[1]).toEqual(1);
-    expect(test.getScale()[2]).toEqual(1);
-    expect(test.scalingDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should scale this Transform on the Y axis', () => {
@@ -228,15 +228,14 @@ test('it should scale this Transform on the Y axis', () => {
     expect(test.getScale()[0]).toEqual(1);
     expect(test.getScale()[1]).toEqual(1);
     expect(test.getScale()[2]).toEqual(1);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.scaleY(2);
     expect(test.getScale()[0]).toEqual(1);
     expect(test.getScale()[1]).toEqual(3);
     expect(test.getScale()[2]).toEqual(1);
-    test.scaleY(4);
-    expect(test.getScale()[0]).toEqual(1);
-    expect(test.getScale()[1]).toEqual(7);
-    expect(test.getScale()[2]).toEqual(1);
-    expect(test.scalingDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should scale this Transform on the Z axis', () => {
@@ -244,15 +243,14 @@ test('it should scale this Transform on the Z axis', () => {
     expect(test.getScale()[0]).toEqual(1);
     expect(test.getScale()[1]).toEqual(1);
     expect(test.getScale()[2]).toEqual(1);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.scaleZ(2);
     expect(test.getScale()[0]).toEqual(1);
     expect(test.getScale()[1]).toEqual(1);
     expect(test.getScale()[2]).toEqual(3);
-    test.scaleZ(4);
-    expect(test.getScale()[0]).toEqual(1);
-    expect(test.getScale()[1]).toEqual(1);
-    expect(test.getScale()[2]).toEqual(7);
-    expect(test.scalingDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should rotate this Transform', () => {
@@ -262,12 +260,15 @@ test('it should rotate this Transform', () => {
     expect(test.getQuaternion()[1]).toEqual(0);
     expect(test.getQuaternion()[2]).toEqual(0);
     expect(test.getQuaternion()[3]).toEqual(1);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.rotate(1, 2, 3);
     expect(test.getQuaternion()[0]).toEqual(rotation1[0]);
     expect(test.getQuaternion()[1]).toEqual(rotation1[1]);
     expect(test.getQuaternion()[2]).toEqual(rotation1[2]);
     expect(test.getQuaternion()[3]).toEqual(rotation1[3]);
-    expect(test.rotationDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should rotate this Transform on the X axis', () => {
@@ -277,12 +278,15 @@ test('it should rotate this Transform on the X axis', () => {
     expect(test.getQuaternion()[1]).toEqual(0);
     expect(test.getQuaternion()[2]).toEqual(0);
     expect(test.getQuaternion()[3]).toEqual(1);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.rotateX(2);
     expect(test.getQuaternion()[0]).toEqual(rotation1[0]);
     expect(test.getQuaternion()[1]).toEqual(rotation1[1]);
     expect(test.getQuaternion()[2]).toEqual(rotation1[2]);
     expect(test.getQuaternion()[3]).toEqual(rotation1[3]);
-    expect(test.rotationDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should rotate this Transform on the Y axis', () => {
@@ -292,12 +296,15 @@ test('it should rotate this Transform on the Y axis', () => {
     expect(test.getQuaternion()[1]).toEqual(0);
     expect(test.getQuaternion()[2]).toEqual(0);
     expect(test.getQuaternion()[3]).toEqual(1);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.rotateY(2);
     expect(test.getQuaternion()[0]).toEqual(rotation1[0]);
     expect(test.getQuaternion()[1]).toEqual(rotation1[1]);
     expect(test.getQuaternion()[2]).toEqual(rotation1[2]);
     expect(test.getQuaternion()[3]).toEqual(rotation1[3]);
-    expect(test.rotationDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
 test('it should rotate this Transform on the Z axis', () => {
@@ -307,186 +314,88 @@ test('it should rotate this Transform on the Z axis', () => {
     expect(test.getQuaternion()[1]).toEqual(0);
     expect(test.getQuaternion()[2]).toEqual(0);
     expect(test.getQuaternion()[3]).toEqual(1);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.rotateZ(2);
     expect(test.getQuaternion()[0]).toEqual(rotation1[0]);
     expect(test.getQuaternion()[1]).toEqual(rotation1[1]);
     expect(test.getQuaternion()[2]).toEqual(rotation1[2]);
     expect(test.getQuaternion()[3]).toEqual(rotation1[3]);
-    expect(test.rotationDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
 });
 
-test('it should compute the modelMatrix (posDirty && sclDirty && rotDirty)', () => {
+test('it should compute the modelMatrix if the Transform has no parent', () => {
     const test = new Transform();
     expect(test.getModelMatrix()[0]).toEqual(1);
     expect(test.getModelMatrix()[1]).toEqual(0);
     expect(test.getModelMatrix()[2]).toEqual(0);
     expect(test.getModelMatrix()[3]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
+    expect(test.matrixTouched).toEqual(false);
+    expect(test.matrixNeedsUpdate).toEqual(false);
     test.translate(1, 2, 3);
     test.scale(2, 2, 2);
     test.rotate(2, 4, 6);
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.getModelMatrix()[2]).toEqual(0);
-    expect(test.getModelMatrix()[3]).toEqual(0);
-    expect(test.positionDirty).toEqual(true);
-    expect(test.scalingDirty).toEqual(true);
-    expect(test.rotationDirty).toEqual(true);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(true);
     test.computeModelMatrix();
     expect(test.getModelMatrix()[0]).not.toEqual(1);
     expect(test.getModelMatrix()[1]).not.toEqual(0);
     expect(test.getModelMatrix()[2]).not.toEqual(0);
     expect(test.getModelMatrix()[3]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
+    expect(test.matrixTouched).toEqual(true);
+    expect(test.matrixNeedsUpdate).toEqual(false);
 });
 
-test('it should compute the modelMatrix (posDirty && !sclDirty && !rotDirty)', () => {
-    const test = new Transform();
-    expect(test.getModelMatrix()[13]).toEqual(0);
-    expect(test.getModelMatrix()[14]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-    test.translate(1, 2, 3);
-    expect(test.getModelMatrix()[13]).toEqual(0);
-    expect(test.getModelMatrix()[14]).toEqual(0);
-    expect(test.positionDirty).toEqual(true);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-    test.computeModelMatrix();
-    expect(test.getModelMatrix()[13]).not.toEqual(0);
-    expect(test.getModelMatrix()[14]).not.toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-});
-
-test('it should compute the modelMatrix (!posDirty && sclDirty && !rotDirty)', () => {
-    const test = new Transform();
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[5]).toEqual(1);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-    test.scale(1, 2, 3);
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[5]).toEqual(1);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(true);
-    expect(test.rotationDirty).toEqual(false);
-    test.computeModelMatrix();
-    expect(test.getModelMatrix()[0]).not.toEqual(1);
-    expect(test.getModelMatrix()[5]).not.toEqual(1);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-});
-
-test('it should compute the modelMatrix (!posDirty && !sclDirty && rotDirty)', () => {
+test('it should not compute the modelMatrix if the Transform has no parent and matrixNeedsUpdate is false', () => {
     const test = new Transform();
     expect(test.getModelMatrix()[0]).toEqual(1);
     expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-    test.rotate(1, 2, 3);
+    expect(test.getModelMatrix()[2]).toEqual(0);
+    expect(test.getModelMatrix()[3]).toEqual(0);
+    test.computeModelMatrix();
     expect(test.getModelMatrix()[0]).toEqual(1);
     expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(true);
-    test.computeModelMatrix();
-    expect(test.getModelMatrix()[0]).not.toEqual(1);
-    expect(test.getModelMatrix()[1]).not.toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
+    expect(test.getModelMatrix()[2]).toEqual(0);
+    expect(test.getModelMatrix()[3]).toEqual(0);
 });
 
-test('it should compute the modelMatrix (posDirty && sclDirty && !rotDirty)', () => {
-    const test = new Transform();
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[14]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-    test.translate(1, 2, 3);
-    test.scale(2, 2, 2);
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[14]).toEqual(0);
-    expect(test.positionDirty).toEqual(true);
-    expect(test.scalingDirty).toEqual(true);
-    expect(test.rotationDirty).toEqual(false);
-    test.computeModelMatrix();
-    expect(test.getModelMatrix()[0]).not.toEqual(1);
-    expect(test.getModelMatrix()[14]).not.toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
+test('it should compute the modelMatrix if the Transform has a parent and parent matrix was not touched', () => {
+    const parent = new Transform();
+    const child = new Transform();
+    parent.addChild(child);
+    expect(child.getModelMatrix()[0]).toEqual(1);
+    expect(child.getModelMatrix()[1]).toEqual(0);
+    expect(child.getModelMatrix()[2]).toEqual(0);
+    expect(child.getModelMatrix()[3]).toEqual(0);
+    child.translate(1, 2, 3);
+    child.scale(2, 2, 2);
+    child.rotate(2, 4, 6);
+    child.computeModelMatrix();
+    expect(child.getModelMatrix()[0]).not.toEqual(1);
+    expect(child.getModelMatrix()[1]).not.toEqual(0);
+    expect(child.getModelMatrix()[2]).not.toEqual(0);
+    expect(child.getModelMatrix()[3]).toEqual(0);
 });
 
-test('it should compute the modelMatrix (posDirty && !sclDirty && rotDirty)', () => {
-    const test = new Transform();
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.getModelMatrix()[14]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-    test.translate(1, 2, 3);
-    test.rotate(2, 2, 2);
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.getModelMatrix()[14]).toEqual(0);
-    expect(test.positionDirty).toEqual(true);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(true);
-    test.computeModelMatrix();
-    expect(test.getModelMatrix()[0]).not.toEqual(1);
-    expect(test.getModelMatrix()[1]).not.toEqual(0);
-    expect(test.getModelMatrix()[14]).not.toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-});
-
-test('it should compute the modelMatrix (!posDirty && sclDirty && rotDirty)', () => {
-    const test = new Transform();
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-    test.scale(1, 2, 3);
-    test.rotate(2, 2, 2);
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(true);
-    expect(test.rotationDirty).toEqual(true);
-    test.computeModelMatrix();
-    expect(test.getModelMatrix()[0]).not.toEqual(1);
-    expect(test.getModelMatrix()[1]).not.toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-});
-
-test('it should compute the modelMatrix (!posDirty && !sclDirty && !rotDirty)', () => {
-    const test = new Transform();
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
-    test.computeModelMatrix();
-    expect(test.getModelMatrix()[0]).toEqual(1);
-    expect(test.getModelMatrix()[1]).toEqual(0);
-    expect(test.positionDirty).toEqual(false);
-    expect(test.scalingDirty).toEqual(false);
-    expect(test.rotationDirty).toEqual(false);
+test('it should compute the modelMatrix if the Transform has a parent and parent matrix was touched', () => {
+    const parent = new Transform();
+    const child = new Transform();
+    parent.addChild(child);
+    expect(child.getModelMatrix()[0]).toEqual(1);
+    expect(child.getModelMatrix()[1]).toEqual(0);
+    expect(child.getModelMatrix()[2]).toEqual(0);
+    expect(child.getModelMatrix()[3]).toEqual(0);
+    parent.translate(1, 2, 3);
+    parent.scale(2, 2, 2);
+    parent.rotate(2, 4, 6);
+    parent.computeModelMatrix();
+    child.translate(1, 2, 3);
+    child.scale(2, 2, 2);
+    child.rotate(2, 4, 6);
+    child.computeModelMatrix();
+    expect(child.getModelMatrix()[0]).not.toEqual(1);
+    expect(child.getModelMatrix()[1]).not.toEqual(0);
+    expect(child.getModelMatrix()[2]).not.toEqual(0);
+    expect(child.getModelMatrix()[3]).toEqual(0);
 });

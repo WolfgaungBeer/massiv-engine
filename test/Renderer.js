@@ -55,13 +55,13 @@ export default class Renderer {
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 
-        this.scene.rotateY(0.02);
+        this.scene.rotateY(2);
         this.scene.computeModelMatrix();
 
         for (let i = 0; i < this.sceneChildren.length; i++) {
             gl.useProgram(this.shaders[i]);
 
-            this.sceneChildren[i].rotateX(0.02);
+            this.sceneChildren[i].rotateX(2);
             const modelMatrix = this.sceneChildren[i].computeModelMatrix();
             const mv = mat4.multiply(mat4.create(), this.camera.getViewMatrix(), modelMatrix);
             const mvp = mat4.multiply(mat4.create(), this.camera.getProjectionMatrix(), mv);

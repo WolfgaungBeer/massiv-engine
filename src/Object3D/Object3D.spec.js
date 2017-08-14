@@ -184,6 +184,50 @@ test('it should return undefined because no child has the given name (recursive)
     expect(child).toBeUndefined();
 });
 
+
+
+
+
+
+
+
+
+test('it should get all children as a flat array (not recursive)', () => {
+    const parent = new Object3D();
+    const child1 = new Object3D();
+    const child2 = new Object3D();
+    const child3 = new Object3D();
+    parent.setChildren([child1, child2, child3]);
+    const children = parent.getChildrenAsFlatArray();
+    expect(children.length).toEqual(3);
+});
+
+test('it should get all children as a flat array (recursive)', () => {
+    const parent = new Object3D();
+    const child1 = new Object3D();
+    const child2 = new Object3D();
+    const child3 = new Object3D();
+    const child4 = new Object3D();
+    const child5 = new Object3D();
+    child4.setChildren([child5]);
+    child1.setChildren([child4]);
+    parent.setChildren([child1, child2, child3]);
+    const children = parent.getChildrenAsFlatArray(true);
+    expect(children.length).toEqual(5);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 test('it should get all children with the given name (not recursive)', () => {
     const parent = new Object3D();
     const child1 = new Object3D();

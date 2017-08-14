@@ -77,6 +77,20 @@ export default class Object3D {
         return undefined;
     }
 
+    getChildrenAsFlatArray(recursive) {
+        let children = [];
+        for (let i = 0; i < this.children.length; i++) {
+            children.push(this.children[i]);
+
+            if (recursive) {
+                const childChildren = this.children[i].getChildrenAsFlatArray(recursive);
+                children = children.concat(childChildren);
+            }
+
+        }
+        return children;
+    }
+
     getChildrenByName(name, recursive) {
         let children = [];
         for (let i = 0; i < this.children.length; i++) {

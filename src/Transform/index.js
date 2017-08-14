@@ -9,9 +9,8 @@ export default class Transform extends Object3D {
         this.position = vec3.fromValues(0, 0, 0);
         this.scaling = vec3.fromValues(1, 1, 1);
         this.quaternion = quat.create();
-        this.positionDirty = false;
-        this.scalingDirty = false;
-        this.rotationDirty = false;
+        this.matrixTouched = false;
+        this.matrixNeedsUpdate = false;
         this.modelMatrix = mat4.create();
     }
 
@@ -21,6 +20,8 @@ export default class Transform extends Object3D {
 
     setPosition(x, y, z) {
         this.position = vec3.fromValues(x, y, z);
+        this.matrixTouched = true;
+        this.matrixNeedsUpdate = true;
     }
 
     getScale() {
@@ -29,6 +30,8 @@ export default class Transform extends Object3D {
 
     setScale(x, y, z) {
         this.scaling = vec3.fromValues(x, y, z);
+        this.matrixTouched = true;
+        this.matrixNeedsUpdate = true;
     }
 
     getQuaternion() {
@@ -37,6 +40,8 @@ export default class Transform extends Object3D {
 
     setQuaternion(x, y, z, w) {
         this.quaternion = quat.fromValues(x, y, z, w);
+        this.matrixTouched = true;
+        this.matrixNeedsUpdate = true;
     }
 
     getModelMatrix() {
@@ -49,7 +54,8 @@ export default class Transform extends Object3D {
 
     translate(x, y, z) {
         this.position = vec3.add(vec3.create(), this.position, vec3.fromValues(x, y, z));
-        this.positionDirty = true;
+        this.matrixTouched = true;
+        this.matrixNeedsUpdate = true;
     }
 
     translateX(value) {
@@ -66,7 +72,8 @@ export default class Transform extends Object3D {
 
     scale(x, y, z) {
         this.scaling = vec3.add(vec3.create(), this.scaling, vec3.fromValues(x, y, z));
-        this.scalingDirty = true;
+        this.matrixTouched = true;
+        this.matrixNeedsUpdate = true;
     }
 
     scaleX(value) {
@@ -84,7 +91,8 @@ export default class Transform extends Object3D {
     rotate(x, y, z) {
         const quaternion = quat.fromEuler(quat.create(), x, y, z);
         this.quaternion = quat.multiply(quat.create(), this.quaternion, quaternion);
-        this.rotationDirty = true;
+        this.matrixTouched = true;
+        this.matrixNeedsUpdate = true;
     }
 
     rotateX(value) {
@@ -103,56 +111,19 @@ export default class Transform extends Object3D {
         const pos = this.position;
         const scl = this.scaling;
         const rot = this.quaternion;
-        const posDirty = this.positionDirty;
-        const sclDirty = this.scalingDirty;
-        const rotDirty = this.rotationDirty;
 
-        if (posDirty && sclDirty && rotDirty) {
-
+        if (this.parent && this.parent.matrixTouched) {
             const transformationMatrix = mat4.fromRotationTranslationScale(mat4.create(), rot, pos, scl);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
+            this.modelMatrix = mat4.multiply(mat4.create(), this.parent.modelMatrix, transformationMatrix);
+        } else {
 
-        } else if (posDirty && !sclDirty && !rotDirty) {
-
-            const transformationMatrix = mat4.fromTranslation(mat4.create(), pos);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
-
-        } else if (!posDirty && sclDirty && !rotDirty) {
-
-            const transformationMatrix = mat4.fromScaling(mat4.create(), scl);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
-
-        } else if (!posDirty && !sclDirty && rotDirty) {
-
-            const transformationMatrix = mat4.fromQuat(mat4.create(), rot);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
-
-        } else if (posDirty && sclDirty && !rotDirty) {
-
-            const posMatrix = mat4.fromTranslation(mat4.create(), pos);
-            const sclMatrix = mat4.fromScaling(mat4.create(), scl);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, sclMatrix);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, posMatrix);
-
-
-        } else if (posDirty && !sclDirty && rotDirty) {
-
-            const transformationMatrix = mat4.fromRotationTranslation(mat4.create(), rot, pos);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, transformationMatrix);
-
-        } else if (!posDirty && sclDirty && rotDirty) {
-
-            const sclMatrix = mat4.fromScaling(mat4.create(), scl);
-            const rotMatrix = mat4.fromQuat(mat4.create(), rot);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, sclMatrix);
-            this.modelMatrix = mat4.multiply(mat4.create(), this.modelMatrix, rotMatrix);
+            if (this.matrixNeedsUpdate) {
+                this.modelMatrix = mat4.fromRotationTranslationScale(mat4.create(), rot, pos, scl);
+            }
 
         }
 
-        this.positionDirty = false;
-        this.scalingDirty = false;
-        this.rotationDirty = false;
-
+        this.matrixNeedsUpdate = false;
         return this.modelMatrix;
     }
 
