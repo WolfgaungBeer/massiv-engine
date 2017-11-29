@@ -1,9 +1,15 @@
 import { quat, mat4 } from 'gl-matrix';
 import Object3D from './';
 
-// ===================================================
-// check all properties of the object ================
-// ===================================================
+test('it should be a instance of an EventEmitter', () => {
+    const test = new Object3D();
+    let called;
+    test.on('test', ({ prop }) => {
+        called = prop;
+    });
+    test.emit('test', { prop: 'value' });
+    expect(called).toEqual('value');
+});
 
 test('it should have a uuid property', () => {
     const test = new Object3D();
@@ -70,10 +76,6 @@ test('it should have a modelMatrix property', () => {
     expect(test).toHaveProperty('modelMatrix');
     expect(test.modelMatrix).not.toBeUndefined();
 });
-
-// ===================================================
-// check all getters and setters of the object =======
-// ===================================================
 
 test('it should get the uuid property', () => {
     const test = new Object3D();
@@ -218,10 +220,6 @@ test('it should set the modelMatrix property', () => {
     expect(test.getModelMatrix()[3]).toEqual(1);
 });
 
-// ===================================================
-// check the non-getter-setter functions of the object
-// ===================================================
-
 test('it should add a child and set the parent correctly', () => {
     const parent = new Object3D();
     const child = new Object3D();
@@ -305,14 +303,6 @@ test('it should return undefined because no child has the given name (recursive)
     expect(child).toBeUndefined();
 });
 
-
-
-
-
-
-
-
-
 test('it should get all children as a flat array (not recursive)', () => {
     const parent = new Object3D();
     const child1 = new Object3D();
@@ -336,18 +326,6 @@ test('it should get all children as a flat array (recursive)', () => {
     const children = parent.getChildrenAsFlatArray(true);
     expect(children.length).toEqual(5);
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 test('it should get all children with the given name (not recursive)', () => {
     const parent = new Object3D();

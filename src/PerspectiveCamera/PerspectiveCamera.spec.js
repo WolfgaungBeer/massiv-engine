@@ -1,10 +1,6 @@
 import { mat4 } from 'gl-matrix';
 import PerspectiveCamera from './';
 
-// ===================================================
-// check all properties of the object ================
-// ===================================================
-
 test('it should have a fov property', () => {
     const test = new PerspectiveCamera(45, 4/3, 0.1, 1000);
     expect(test).toHaveProperty('fov');
@@ -28,15 +24,6 @@ test('it should have a far property', () => {
     expect(test).toHaveProperty('far');
     expect(test.far).toEqual(1000);
 });
-
-// ===================================================
-// check all getters and setters of the object =======
-// ===================================================
-
-
-// ===================================================
-// check the non-getter-setter functions of the object
-// ===================================================
 
 test('it should set the projectionMatrix if updateProjectionMatrix is called', () => {
     const test = new PerspectiveCamera(45, 4/3, 0.1, 1000);

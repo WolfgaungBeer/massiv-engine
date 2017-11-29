@@ -1,10 +1,6 @@
 import { mat4 } from 'gl-matrix';
 import Camera from './';
 
-// ===================================================
-// check all properties of the object ================
-// ===================================================
-
 test('it should have a upVector property', () => {
     const test = new Camera();
     expect(test).toHaveProperty('upVector');
@@ -22,10 +18,6 @@ test('it should have a projectionMatrix property', () => {
     expect(test).toHaveProperty('projectionMatrix');
     expect(test.projectionMatrix).not.toBeUndefined();
 });
-
-// ===================================================
-// check all getters and setters of the object =======
-// ===================================================
 
 test('it should get the upVector property', () => {
     const test = new Camera();
@@ -71,10 +63,6 @@ test('it should set the projectionMatrix property', () => {
     expect(test.getProjectionMatrix()[1]).toEqual(1);
     expect(test.getProjectionMatrix()[2]).toEqual(1);
 });
-
-// ===================================================
-// check the non-getter-setter functions of the object
-// ===================================================
 
 test('it should set the viewMatrix correctly if lookAt is called', () => {
     const test = new Camera();

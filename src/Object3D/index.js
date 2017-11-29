@@ -1,9 +1,11 @@
+import EventEmitter from 'eventemitter3';
 import v4 from 'uuid/v4';
 import { vec3, quat, mat4 } from 'gl-matrix';
 
-export default class Object3D {
+export default class Object3D extends EventEmitter {
 
     constructor() {
+        super();
         this.uuid = v4();
         this.name = 'Object3D';
         this.type = 'Object3D';
